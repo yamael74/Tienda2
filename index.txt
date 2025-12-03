@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda Offline</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-image: url('imagenes/galaxia.png');base64,REPLACE_BASE64_GALAXIA');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .product-grid {
+      display: flex;
+      gap: 16px; /* separación entre imágenes */
+    }
+    .product {
+      width: 48%;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .product img {
+      width: 100%;
+      border-radius: 6px;
+    }
+    .btn {
+      margin-top: 10px;
+      display: inline-block;
+      background: #25d366;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  .producto-img { position: relative; z-index: 2; }
+    .producto-sombra { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; transition: opacity 0.18s; z-index: 1; }
+  </style>
+</head>
+<body>
+  <img src="imagenes/logo.png" alt="Logo" style="position:absolute; top:10px; right:10px; width:80px; border-radius:8px;">
+  <h1>Tienda Offline</h1>
+  <p>Selecciona un producto y envíalo por WhatsApp.</p>
+
+  <div class="product-grid">
+    <div class="product" onclick="animarProducto(this, 'Producto 1')" style="position:relative; cursor:pointer;">
+      <img class="producto-img" src="imagenes/collar1.png" alt="Producto 1">
+      <img class="producto-sombra" src="imagenes/collar1sombra.png" alt="Sombra">
+      <h3>Producto 1</h3>
+      <p>Descripción breve.</p>
+      <a class="btn" href="https://wa.me/573001112233?text=Quiero%20comprar%20el%20Producto%201" target="_blank">Enviar a WhatsApp</a>
+    </div>
+
+    <div class="product" onclick="animarProducto(this, 'Producto 2')" style="position:relative; cursor:pointer;">
+      <img class="producto-img" src="imagenes/producto1.png" alt="Producto 2">
+      <img class="producto-sombra" src="imagenes/producto1sombra.png" alt="Sombra">
+      <h3>Producto 2</h3>
+      <p>Descripción breve.</p>
+      <a class="btn" href="https://wa.me/573001112233?text=Quiero%20comprar%20el%20Producto%202" target="_blank">Enviar a WhatsApp</a>
+    </div>
+  </div>
+  <!-- Botón flotante WhatsApp -->
+  <button id="whatsappBtn" style="position:fixed; bottom:20px; right:20px; padding:14px 18px; background:#25d366; color:white; border:none; border-radius:50px; font-weight:bold; font-size:16px; cursor:pointer;">Enviar carrito</button>
+
+  <script>
+    function animarProducto(elemento, nombre) {
+      const sombra = elemento.querySelector('.producto-sombra');
+      if (sombra) {
+        sombra.style.opacity = '1';
+        setTimeout(() => { sombra.style.opacity = '0'; }, 180);
+      }
+      agregarAlCarrito(nombre);
+    }
+
+    let carrito = [];
+
+    function agregarAlCarrito(nombre) {
+      carrito.push(nombre);
+      alert(nombre + " agregado al carrito ✔");
+    }
+
+    document.getElementById("whatsappBtn").addEventListener("click", function() {
+      if (carrito.length === 0) {
+        alert("El carrito está vacío 🙈");
+        return;
+      }
+
+      let mensaje = "Hola, quiero este pedido:%0A%0A";
+      carrito.forEach((item, index) => {
+        mensaje += `- ${item}%0A`;
+      });
+
+      mensaje += `%0ATotal: ${carrito.length} productos`;
+
+      window.open(`https://wa.me/573001112233?text=${mensaje}`);
+    });
+  </script>
+</body>
+</html>
